@@ -24,16 +24,16 @@ Hardware
 Software - Server
 -----
 
--> Microsoft Windows 7 64Bit
--> NodeJS
--> Socket.IO
--> SerialPort2
+- Microsoft Windows 7 64Bit
+- NodeJS
+- Socket.IO
+- SerialPort2
 
 Control - Client/Remote
 -----
 
--> Android App
--> Blackberry Playbook App
+- Android App
+- Blackberry Playbook App
 
 Logic/Control Flow
 -----
@@ -44,19 +44,19 @@ Simple! The app connects to the server running on a PC via Wi-Fi & sends a numbe
 Hardware Connections
 -----
 
--> Ardunio Pin A0 - LM35 Temperature Sensor's Output PIN
--> Arduino Pin 10 - Relay 1
--> Arduino Pin 11 - Relay 2
--> Arduino Pin 12 - Relay 3
+- Ardunio Pin A0 - LM35 Temperature Sensor's Output PIN
+- Arduino Pin 10 - Relay 1
+- Arduino Pin 11 - Relay 2
+- Arduino Pin 12 - Relay 3
 
 Dependancies
 -----
 
 This project has the following dependancies:
 
--> [NodeJS Serial Port](https://github.com/voodootikigod/node-serialport) - Used in X-Control NodeJS Server Script
--> [Java Socket.IO Client](https://github.com/clwillingham/java-socket.io.client) - Used in X-Control Android App
--> [FlashSocket.IO](https://github.com/simb/FlashSocket.IO) - Used in X-Control Blackberry Playbook App
+- [NodeJS Serial Port](https://github.com/voodootikigod/node-serialport) - Used in X-Control NodeJS Server Script
+- [Java Socket.IO Client](https://github.com/clwillingham/java-socket.io.client) - Used in X-Control Android App
+- [FlashSocket.IO](https://github.com/simb/FlashSocket.IO) - Used in X-Control Blackberry Playbook App
 
 Thanks to the authors for making them public!
 
