@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		actionBarVisible="false" overlayControls="false" tabBarVisible="true" title="X-Control">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.pnwrain.flashsocket.FlashSocket;
+			import com.pnwrain.flashsocket.events.FlashSocketEvent;
+			
+			import qnx.dialog.AlertDialog;
+			import qnx.dialog.DialogSize;
+			import qnx.display.IowWindow;
+			[Bindable]
+			protected var socket:FlashSocket;
+			protected var interval;
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				if(inp.text.length == 0)
+					return;
+				socket = new FlashSocket("192.168.2.186:80");
+				socket.addEventListener(FlashSocketEvent.CONNECT, onConnect);
+				socket.addEventListener(FlashSocketEvent.MESSAGE, onMessage);
+				socket.addEventListener(FlashSocketEvent.IO_ERROR, onError);
+				socket.addEventListener(FlashSocketEvent.SECURITY_ERROR, onError);
+				socket.addEventListener(FlashSocketEvent.CONNECT_ERROR, onError);
+				socket.addEventListener(FlashSocketEvent.DISCONNECT, DisError);
+				
+				socket.addEventListener("my other event", myCustomMessageHandler);
+				socket.addEventListener("update", updateControls);
+				socket.addEventListener("temperature", tempr);
+			}
+			
+			protected function myCustomMessageHandler(event:FlashSocketEvent):void{
+				setStatus('Connected To Server')    
+			}
+			
+			protected function updateControls(event:FlashSocketEvent):void{
+				
+				//fan.selected = event.data;
+				//fan.validateNow();
+				
+				/*
+					var winner11:AlertDialog;
+					winner11 = new AlertDialog();
+					winner11.title = "Winner!!";
+					winner11.message = event.data;
+					winner11.addButton("OK");
+					winner11.dialogSize = DialogSize.SIZE_SHORT;
+					winner11.addButton("Cancel");
+					//winner11.addButton("FUCK!");
+					winner11.show(IowWindow.getAirWindow().group);
+				*/
+			}
+			
+			protected function tempr(event:FlashSocketEvent):void{
+			  tem.text = event.data + "°c";
+			  
+			}
+			
+			protected function getTemp():void
+			{
+				socket.send({msgdata:"X"},"get");
+			}
+			
+			protected function onConnect(event:FlashSocketEvent):void {
+				socket.send({msgdata:inp.text},"validate");
+				setStatus("Connected!");
+				cnt.label = "Logged In";
+				cnt.enabled=false;
+				tem.visible = true;
+				dis.visible=true;
+				inp.enabled=false;
+				interval = setInterval(getTemp,2000);
+				//clearStatus();s
+				
+			}
+			
+			protected function onError(event:FlashSocketEvent):void {
+				
+				setStatus("Server Unreachable!");
+				
+			}
+			
+			protected function DisError(event:FlashSocketEvent):void {
+				
+				setStatus("Disconnected!");
+				cnt.label = "Connect";
+				cnt.enabled=true;
+				tem.visible = false;
+				dis.visible=false;
+				inp.enabled=true;
+				clearInterval(interval);
+			}
+			
+			protected function setStatus(msg:String):void{
+				
+				status.text = msg;
+				
+			}
+			protected function clearStatus():void{
+				
+				status.text = "";
+				this.currentState = "";
+				
+			}
+			
+			protected function onMessage(event:FlashSocketEvent):void{
+				
+				trace('we got message: ' + event.data);
+				socket.send({msgdata: event.data},"my other event");
+				
+			}
+			
+			
+			protected function fan_changeHandler(event:Event):void
+			{
+				socket.send({msgdata:fan.selected},"FanToggle");
+				
+			}
+			
+			protected function button4_clickHandler(event:MouseEvent):void
+			{
+				socket.send({msgdata:fan.selected},"disco");
+			}
+			
+			
+			
+			protected function toggleswitch1_changeHandler(event:Event):void
+			{
+				socket.send({msgdata:light.selected},"LightToggle");
+				
+			}
+			
+			protected function toggleswitch2_changeHandler(event:Event):void
+			{
+				socket.send({msgdata:plug.selected},"PlugToggle");
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:ToggleSwitch id="fan" x="241" y="311" width="132" change="fan_changeHandler(event)"/>
+	<s:Label x="50" y="315" fontFamily="Courier New" fontSize="26" text="Ceiling Fan: "/>
+	<s:TextInput id="inp" x="223" y="185" width="756" displayAsPassword="true" enabled="true"
+				 fontSize="16"/>
+	<s:Label x="13" y="190" fontFamily="Courier New" fontSize="32" text="Access Key:"/>
+	<s:Button id="cnt" y="224" left="846" width="126" height="37" label="Login"
+			  click="button2_clickHandler(event)" fontSize="16"/>
+	<s:Label id="status" x="2" y="589" width="349" height="14" fontFamily="Courier New" fontSize="12"/>
+	<s:Image x="10" y="10" width="442" height="100" source="assets/dddd.png"/>
+	<s:Button id="dis" visible="false" x="701" y="224" width="137" height="37" label="Logout"
+			  click="button4_clickHandler(event)" fontSize="16"/>
+	<s:Label x="51" y="395" fontFamily="Courier New" fontSize="26" text="Light:"/>
+	<s:Label x="51" y="471" fontFamily="Courier New" fontSize="26" text="Plug Point:"/>
+	<s:ToggleSwitch id="light" x="146" y="390" width="132"
+					change="toggleswitch1_changeHandler(event)"/>
+	<s:ToggleSwitch id="plug" x="229" y="466" width="132" change="toggleswitch2_changeHandler(event)"/>
+	<s:Label x="830" y="6" fontFamily="Courier New" fontSize="18" fontStyle="normal"
+			 fontWeight="normal" text="www.aravindvs.com"/>
+	<s:Label id="tem" x="503" y="398" height="186" color="#A6A6A6" fontFamily="Arial" fontSize="250"/>
+</s:View>

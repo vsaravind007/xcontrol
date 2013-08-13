@@ -1,0 +1,13 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+
+global
+{
+	chrome-color: #ffffff;
+	content-background-color: #ffffff;
+	background:#000;
+	font-size: 12;
+	selection-color: #AAAAAA;
+}
+	
