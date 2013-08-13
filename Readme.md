@@ -11,15 +11,15 @@ I know there are a million homebrew automation systems out there & still I creat
 Hardware
 -----
 
--> Arduino UNO
--> 12v/1A DC Powersupply
--> TIP122 Darlington Transistors
--> 230V/7A, 12V Relays
--> 2.2K Resistors
--> 1N4007 Diodes
--> Wires
--> PCB
--> LM35 Linear Temperature Sensor
+- Arduino UNO
+- 12v/1A DC Powersupply
+- TIP122 Darlington Transistors
+- 230V/7A, 12V Relays
+- 2.2K Resistors
+- 1N4007 Diodes
+- Wires
+- PCB
+- LM35 Linear Temperature Sensor
 
 Software - Server
 -----
