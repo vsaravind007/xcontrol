@@ -3,6 +3,7 @@ X-Control Automation System v1.0
 Developed By Aravind.V.S
 www.aravindvs.com
 
+**NOTE: This project is no longer maintained/obsolete since this can be implemented using ESP8266 or others using simpler technologies now** 
 
 Introduction
 -----
